@@ -1,43 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:calling_app/presentation/CallBlendedList/call_blended_list_screen.dart';
+import 'package:get/get.dart';
+import 'Theme/theme.dart';
+import 'screens/call_blended_list/call_blended_list_view.dart';
 
 void main() {
+  Get.put(ThemeController());
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: Get.find<ThemeController>().isDarkMode.value ? ThemeMode.dark : ThemeMode.light, // Access the isDarkMode from ThemeController
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        fontFamily: 'Typography',
-        useMaterial3: true,
-      ),
-      home: const HomePageScreen(),
+      home: CallBlendedListScreen(),
     );
   }
 }
-class HomePageScreen extends StatefulWidget {
+
+class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomePageScreen> createState() => _HomePageScreenState();
-}
-
-class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-          onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallBlendedListScreen(),));
+          onPressed: () {
+            Get.to(() => CallBlendedListScreen());
           },
           child: const Text('Show Calling'),
         ),
